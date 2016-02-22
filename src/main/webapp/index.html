@@ -1,10 +1,74 @@
 <!DOCTYPE html>
+
 <html>
     <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Telefonica</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript">
+            var WSDIR = "ws://192.168.1.143:8082/Telefonica/endpoint";
+            var webSocket;
+
+            //Establece la conexión e inicializa el WebSocket
+            function abreWebSocket(){
+                //Asegura que haya una sola conexión abierta
+                if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
+                    muestraMensaje("El WebSocket ya está abierto");
+                    return;
+                }
+                //Crea una nueva instancia del WebSocket
+                webSocket = new WebSocket(WSDIR);
+                 
+                //Registra listeners para los eventos del WebSocket
+                //onopen: al abrirse la conexión
+                //onmessage: al recibir un mensaje
+                //onclose: al cerrarse la conexión
+                webSocket.onopen = function(event){
+                    muestraMensaje("Conexión abierta");
+                };
+
+                webSocket.onmessage = function(event){
+                    muestraMensaje(event.data);
+                    
+                };
+
+                webSocket.onclose = function(event){
+                    muestraMensaje("Conexión cerrada");
+                };
+            }
+            
+            //Envía el mensaje escrito por el usuario
+            function enviaMsg(){
+                var msg = document.getElementById("mensaje").value + "a" +  document.getElementById("monto").value;
+                webSocket.send(msg);
+            }
+            //Cierra la conexión
+            function cierraWebSocket(){
+                webSocket.close();
+            }
+            //Muestra los mensajes de la conversación en la pantalla
+            function muestraMensaje(msg){
+                var conversacion = document.getElementById("mensaje");
+                conversacion.innerHTML += "<br/>" + msg;
+                
+            }  
+        </script>        
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <div id="chat">
+            <div id="conexion">
+                <button type="button" onclick="abreWebSocket();">Abrir Conexión</button>
+                <button type="button" onclick="cierraWebSocket();" >Cerrar Conexión</button>
+                
+            </div>
+            <p/>
+            <div id="envio">
+                <input type="text" id="mensaje"/>
+                <input type="text" id="monto"/>
+                <button type="button" onclick="enviaMsg();">Enviar Mensaje</button>
+            </div>
+            
+            <div id="conversacion"></div>
+        </div>
     </body>
 </html>
