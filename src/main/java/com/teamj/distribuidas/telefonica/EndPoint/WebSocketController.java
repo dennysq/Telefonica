@@ -50,7 +50,8 @@ public class WebSocketController {
         ttb.getTelefonia().setTelefono(parts[0]);
         ttb.setMonto(Float.parseFloat(parts[1]));
         ttb.buscarTelefono();
-        broadcastMsg(message, s);
+        
+        broadcastMsg(String.valueOf(ttb.getSuccess()), s);
     }
     
     private void broadcastMsg(String message, Session sender) {

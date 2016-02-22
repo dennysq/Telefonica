@@ -2,11 +2,11 @@
 
 <html>
     <head>
-        <title>Telefonica</title>
+        <title>Primer Web Socket: Chat</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
         <script type="text/javascript">
-            var WSDIR = "ws://192.168.1.143:8082/Telefonica/endpoint";
+            var WSDIR = "ws://localhost:8082/Telefonica/endpoint";
             var webSocket;
 
             //Establece la conexión e inicializa el WebSocket
@@ -29,7 +29,6 @@
 
                 webSocket.onmessage = function(event){
                     muestraMensaje(event.data);
-                    
                 };
 
                 webSocket.onclose = function(event){
@@ -48,9 +47,8 @@
             }
             //Muestra los mensajes de la conversación en la pantalla
             function muestraMensaje(msg){
-                var conversacion = document.getElementById("mensaje");
+                var conversacion = document.getElementById("conversacion");
                 conversacion.innerHTML += "<br/>" + msg;
-                
             }  
         </script>        
     </head>
@@ -59,7 +57,6 @@
             <div id="conexion">
                 <button type="button" onclick="abreWebSocket();">Abrir Conexión</button>
                 <button type="button" onclick="cierraWebSocket();" >Cerrar Conexión</button>
-                
             </div>
             <p/>
             <div id="envio">
@@ -67,7 +64,6 @@
                 <input type="text" id="monto"/>
                 <button type="button" onclick="enviaMsg();">Enviar Mensaje</button>
             </div>
-            
             <div id="conversacion"></div>
         </div>
     </body>

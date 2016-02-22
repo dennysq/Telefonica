@@ -28,7 +28,7 @@ public class TransaccionTelefoniaBean {
     private float monto;
     private Telefonia telefonia;
     private String telefono;
-    
+    private int success;
 
     public TransaccionTelefonia getTransaccionTelefonica() {
         return transaccionTelefonica;
@@ -56,6 +56,7 @@ public class TransaccionTelefoniaBean {
             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "La Factura ha sido guardada correctamente"));
         } catch (Exception e) {
             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar la factura" + e.getMessage()));
+            success=0;
             System.out.println(e.toString());
         }
     }
@@ -65,9 +66,12 @@ public class TransaccionTelefoniaBean {
             this.telefonia = temp;
             System.out.println("encontrado");
             agregarSaldo();
+            success=1;
         } else {
             this.telefonia.setTelefono("");
+            success=0;
             System.out.println("no encontrado");
+            
             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se ha encontrado el cliente"));
         }
     }
@@ -94,6 +98,14 @@ public class TransaccionTelefoniaBean {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public int getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(int success) {
+        this.success = success;
     }
     
 }
